@@ -1,0 +1,130 @@
+﻿<html>
+<head>
+<!--HTA:APPLICATION
+        BORDER="thin"
+		MAXIMIZEBUTTON="no"
+        MINIMIZEBUTTON="no"
+        BORDERSTYLE="normal"
+        CAPTION="yes"
+        SHOWINTASKBAR="no"
+        SINGLEINSTANCE="no"
+        SYSMENU="yes"
+		RESIZABLE="no"
+ /-->
+   <style type="text/css" >
+	body{
+		width: 320px;
+		background-color:#E0E4EF;
+		height: 240px;
+		font-weight:800;
+	}
+	.block1 {
+		width: 320px;
+		background-color:#E0E4EF;
+		height: 60px;
+		font-size: 10pt;
+		font-weight:200;
+	}
+	.block2 {
+		width: 320px;
+		background-color:#E0E4EF;
+		height: 60px;
+		font-size: 10pt;
+		font-weight:200;
+	}		
+	.button  {
+		width:300px;
+		padding:1px;
+		}
+   </style>
+   <script language="javascript">
+	//установить размеры окна
+	window.resizeTo(400, 700)
+	window.moveTo(screen.width - 400, 0)
+	alert("hi")
+	//извлечь значение первого элемента по имени
+	function enm(name){
+		return document.getElementsByName(name)[0]
+	}
+	
+	//расчет напряжения
+	function resU(){
+		if (enm("mat_arg").value === "CU"){
+			r= 0.0183
+		}else{
+			r= 0.03
+		}
+		S = +enm("S_arg").value
+		L = +enm("L_arg").value
+		U = +enm("U_arg").value
+		E = +enm("E_arg").value
+		Pn = +enm("Pn_arg").value
+		Un = E - 2 * Pn * r * L / ( S * U)
+		enm("Un_arg").value = Un.toFixed(2)
+	}
+	//расчет длинны
+	function resL(){
+		if (enm("mat_arg").value === "CU"){
+			r= 0.0183
+		}else{
+			r= 0.03
+		}
+		S = +enm("S_arg").value
+		Un = +enm("Un_arg").value
+		U = +enm("U_arg").value
+		E = +enm("E_arg").value
+		Pn = +enm("Pn_arg").value
+		L = (E - Un)* S * U / (2 * Pn * r)
+		enm("L_arg").value = L.toFixed(2)
+	}
+   </script>
+
+</head>
+
+<body >
+	<h2> Калькулятор падения напряжения в линии постоянного тока</h2>
+	<table border="1">
+		<tr>
+			<td>Материал кабеля</td>
+			<td><select id="selectID" name = "mat_arg">
+				<option value = "CU">Медь</option>
+				<option value = "AL">Алюминий</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td>Сечение кабеля, мм2</td>
+			<td><input type="text" value="1.5" name="S_arg" size="10"></td>
+		</tr>
+		<tr>
+			<td>Длинна линии, м</td>
+			<td><input type="text" value="60" name="L_arg" size="10"></td>
+		</tr>
+		<tr>
+			<td>Номинальное напряжение, В</td>
+			<td><input type="text" value="12" name="U_arg" size="10"></td>
+		</tr>
+		<tr>
+		<tr>
+			<td>Напряжение источника, В</td>
+			<td><input type="text" value="12" name="E_arg" size="10"></td>
+		</tr>
+		<tr>
+			<td>Суммарная мощность видеокамер в линии, Вт</td>
+			<td><input type="text" value="10" name="Pn_arg" size="10"></td>
+		</tr>
+		<tr>
+			<td>Напряжение в нагрузке на конце линии, В</td>
+			<td><input type="text" name="Un_arg" size="10"></td>
+		</tr>
+	</table>
+	<br>
+	<input type="button" class = "button" value="Рассчитать напряжение в нагрузке" onclick = "resU()"></td>
+	<div class="block1">ВАЖНО! Перед тем как нажать проверьте все значения, кроме "Напряжение в нагрузке на конце линии, В"
+	</div>
+	<input type="button" class = "button" value="Длинна линиии" onclick = "resL()"></td>
+	<div class="block2">ВАЖНО! Перед тем как нажать проверьте все значения, кроме "Длинна линии, м"
+	</div>
+	<a><img src="https://luis.ru/local/templates/main_2/images/logo_luis.png" width="100" height="40" border="0" alt="Пример"></a>
+</body>
+
+</html>
